@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-deployment
+spec:
+  replicas: 3                   # 3 server deployed to share load
+  selector:
+    matchLabels:
+      component: server          # must match with label's component
+  template:
+    metadata:
+      labels:
+        component: server        # can be anything (you can define any thing such as my_app_name: <name> )
+    spec:
+      containers:
+      - name: server
+        image: vedantdave77/docker-server
+        ports:
+        - containerPort: 5000
+        env:                                # create environment and connect sever with the redis and postgeres (postgres - user/ database/ host/ ports)
+        - name: REDIS_HOST
+          value: redis-cluster-ip-service
+        - name: REDIS_PORT
+          value: '6379'
+        - name: PGUSER
+          value: postgres
+        - name: PGHOST
+          value: postgres-cluster-ip-service
+        - name: PGPORT
+          value: '5432'         # values must be string, otherwise gives the error.
+        - name: PGDATABASE
+          value: postgres
+        - name: POSTGRES_PASSWORD                     # To make security of our database, we config the file with the password. (by running the local command, first create the secret and then apply those data to here.)
+          valueFrom:
+            secretKeyRef:
+              name: pgpassword
+              key: PGPASSWORD
+
+
+        resources:                       #providing resource to remove warning for cluster size
+          limits:
+            memory: 512Mi
+            cpu: "1"
+          requests:
+            memory: 256Mi
+            cpu: "0.2"
+  

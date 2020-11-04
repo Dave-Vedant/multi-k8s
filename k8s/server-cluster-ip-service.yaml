@@ -1,0 +1,15 @@
+# It's a Cluster IP configuration file.
+apiVersion: v1
+kind: Service                                               # check the capital (Service / service)
+metadata:
+  name: server-cluster-ip-service
+spec:
+  type: ClusterIP 
+  selector:
+    component: server
+  ports:
+    - port: 5000
+      targetPort: 5000    
+
+# Explaination: 
+# Here, the target port is 5000, must match with the server deployment ip so, this file will provide outer world exposure to our server with security. on port 3050

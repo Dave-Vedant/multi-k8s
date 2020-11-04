@@ -1,0 +1,14 @@
+# its config file for the cluster
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-cluster-ip-service   #host name
+spec:
+  type: ClusterIP
+  selector:
+    component: redis
+  ports:
+    - port: 6379
+      targetPort: 6379
+
+

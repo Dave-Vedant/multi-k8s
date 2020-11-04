@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deployment
+spec:
+  replicas: 1          # it represents the database, so in case of increasing replica we need some more modification and confituragion.. BECAUSE there is no meaning of accessing same data by two pods.
+  selector:
+    matchLabels:
+      component: postgres
+  template:
+    metadata:
+      labels:
+        component: postgres
+    spec:
+      volumes:                         # generate volume (assigning PVC)
+        - name: postgres-storage
+          persistentVolumeClaim:
+              claimName: database-persistent-volume-claim
+      containers:
+      - name: client
+        image: postgres
+        ports:
+        - containerPort: 5432
+        volumeMounts:                   # for pvc configuration
+          - name: postgres-storage
+            mountPath: /var/lib/postgresql/data 
+            subPath: postgres 
+        env:
+          - name: POSTGREES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: pgpassword
+                key: PGPASSWORD  
+        resources:                                  #providing resource to remove warning for cluster size
+          limits:
+            memory: 512Mi
+            cpu: "1"
+          requests:
+            memory: 256Mi
+            cpu: "0.2"
+  
+  
