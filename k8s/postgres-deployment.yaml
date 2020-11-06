@@ -24,7 +24,7 @@ spec:
         volumeMounts:                   # for pvc configuration
           - name: postgres-storage
             mountPath: /var/lib/postgresql/data 
-            subPath: postgres 
+                                         #subPath: postgres # try to remove subpath for gcp error correspondence.
         env:
           - name: POSTGREES_PASSWORD
             valueFrom:
