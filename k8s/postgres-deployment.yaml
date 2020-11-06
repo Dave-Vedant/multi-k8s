@@ -24,19 +24,13 @@ spec:
         volumeMounts:                   # for pvc configuration
           - name: postgres-storage
             mountPath: /var/lib/postgresql/data 
-                                         #subPath: postgres # try to remove subpath for gcp error correspondence.
+          
         env:
           - name: POSTGREES_PASSWORD
             valueFrom:
               secretKeyRef:
                 name: pgpassword
-                key: PGPASSWORD  
-        resources:                                  #providing resource to remove warning for cluster size
-          limits:
-            memory: 512Mi
-            cpu: "1"
-          requests:
-            memory: 256Mi
-            cpu: "0.2"
-  
+                key: PGPASSWORD 
+       
+
   

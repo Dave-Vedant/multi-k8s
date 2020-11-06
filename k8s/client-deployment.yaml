@@ -17,12 +17,5 @@ spec:
         image: vedantdave77/docker-client
         ports:
         - containerPort: 3000
-        resources:                       #providing resource to remove warning for cluster size
-          limits:
-            memory: 512Mi
-            cpu: "1"
-          requests:
-            memory: 256Mi
-            cpu: "0.2"
-  
+        
   
