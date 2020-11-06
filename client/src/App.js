@@ -1,4 +1,3 @@
-// This is App frontend file for what you see in browser. 
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
@@ -18,7 +17,7 @@ function App() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Learn React
+            Learn React 3
           </a>
           <Link to="/">Home</Link>
           <Link to="/otherpage">Other Page</Link>
