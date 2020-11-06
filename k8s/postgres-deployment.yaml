@@ -17,16 +17,16 @@ spec:
           persistentVolumeClaim:
               claimName: database-persistent-volume-claim
       containers:
-      - name: client
-        image: postgres
+      - name: postgres                    # correction (image override to default)
+        image: postgres 
         ports:
         - containerPort: 5432
         volumeMounts:                   # for pvc configuration
           - name: postgres-storage
             mountPath: /var/lib/postgresql/data 
-          
+            subPath: postgres
         env:
-          - name: POSTGREES_PASSWORD
+          - name: POSTGRES_PASSWORD         # correct typo
             valueFrom:
               secretKeyRef:
                 name: pgpassword
